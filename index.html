@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+<body>
+    <!-- <h1>
+       BINGO
+    </h1> -->
+    <!-- // 全体的な枠 -->
+    <div class="wrapper">
+        <!-- // ルーレット -->
+        <div id="result" class="result centering"></div>
+        <!-- // ルーレット開始、停止のボタン -->
+        <div class="wrapper-button">
+            <button id="button" class="button">START</button>
+        </div>
+    </div>
+    <!-- <h2>現在の数字は<span id="bingo"></span>です。</h2> -->
+    <div>
+        <table id="bingo" cellspacing="10">
+            <tbody>
+                <tr>
+                    <th>B</th>
+                    <th>I</th>
+                    <th>N</th>
+                    <th>G</th>
+                    <th>O</th>
+                </tr>
+                <tr>
+                    <td id="bi0"></td>
+                    <td id="bi1"></td>
+                    <td id="bi2"></td>
+                    <td id="bi3"></td>
+                    <td id="bi4"></td>
+                </tr>
+                <tr>
+                    <td id="bi5"></td>
+                    <td id="bi6"></td>
+                    <td id="bi7"></td>
+                    <td id="bi8"></td>
+                    <td id="bi9"></td>
+                </tr>
+                <tr>
+                    <td id="bi10"></td>
+                    <td id="bi11"></td>
+                    <td id="bi12"></td>
+                    <td id="bi13"></td>
+                    <td id="bi14"></td>
+                </tr>
+                <tr>
+                    <td id="bi15"></td>
+                    <td id="bi16"></td>
+                    <td id="bi17"></td>
+                    <td id="bi18"></td>
+                    <td id="bi19"></td>
+                </tr>
+                <tr>
+                    <td id="bi20"></td>
+                    <td id="bi21"></td>
+                    <td id="bi22"></td>
+                    <td id="bi23"></td>
+                    <td id="bi24"></td>
+                </tr>
+            </tbody>
+        </table>
+        <p id="button"><input type="button" value="カード作成" id="bingo-create"></p>
+    </div>  
+    <div class="wrapper">
+    <!-- // ルーレットを停止後、出た数字を一覧で表示 -->
+    <ul id="number" class="number"></ul>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+    //  document.getElementById('result').textContent = Math.floor(Math.random() * 75 + 1);
+    //  console.log(randomNumber);
+    $(function () {
+
+// 1~75まで、bingoの数字一覧を作成
+var max = 75;
+var bingo = [];
+for (var i = 1; i <= max; i++) {
+    bingo.push(i);
+}
+
+var timer;
+var random;
+// START・STOPボタンクリックのイベント
+$("#button").on("click", function () {
+    // START
+    if ($(this).text() == "START") {
+        // ボタンのテキストを"STOP"に変更
+        $(this).text("STOP");
+
+        // ルーレットタイマーを設定
+        timer = setInterval(function () {
+            random = Math.floor(Math.random() * bingo.length);
+            $("#result").text(bingo[random]);
+        }, 10);
+    // STOP
+    } else {
+        // ボタンのテキストを"START"に変更
+        $(this).text("START");
+
+        // ルーレットタイマーを停止
+        clearInterval(timer);
+
+        // 停止時の数字を結果に反映
+        var result = bingo[random];
+        // 一覧から削除（次のルーレットに表示させないため）
+        bingo.splice(random, 1);
+
+        // 数字一覧に追加
+        $("#number").append($("<li>").text(result));
+        $("#number li").addClass("centering");
+    }
+});
+});
+</script>
+<script type="text/javascript">
+    
+        $(function () {
+            var make_col = function (base) {
+                var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+                var list = [];
+                for (var i = 1; i <= 5; i++) {
+                    // ランダムで値を取得
+                    var a = parseInt(Math.random() * arr.length);
+                    list.push(arr[a] + base);
+                    // 数字を重複させないため、元々のリストから値を削除する
+                    arr.splice(a, 1);
+                }
+                return list;
+            };
+
+            var make_table = function () {
+                // B列、I列...とそれぞれで5つの数字をランダムで取得
+                var col_b = make_col(1);
+                var col_i = make_col(16);
+                var col_n = make_col(31);
+                var col_g = make_col(46);
+                var col_o = make_col(61);
+        // 25個分の数字を格納できるtableに取ってきた列の数字を設定
+                var list = new Array(25);
+                for (var i = 0; i < 5; i++) {
+                    list[i * 5 + 0] = col_b[i];
+                    list[i * 5 + 1] = col_i[i];
+                    list[i * 5 + 2] = col_n[i];
+                    list[i * 5 + 3] = col_g[i];
+                    list[i * 5 + 4] = col_o[i];
+                }
+            // 中心はfreeで固定
+                list[12] = 'free';
+                return list;
+            };
+
+            var create_card = function () {
+                var row = make_table();
+                for (var i = 0; i < row.length; i++) {
+                    $('#bi' + i).text(row[i]);
+                }
+            };
+
+            // 初期化関数
+            var init = function () {
+                create_card();
+
+                // チェック状態を外す
+                $('#bingo td').each(function () {
+                    $(this).removeClass('check');
+                });
+            };
+
+            // 初期
+            init();
+    // カード作成 ボタンをクリックすると、初期化
+            $('#bingo-create').click(function () {
+                init();
+            });
+    // 番号をクリックすると、スタイルを変更するクラスをつけ外しできる
+            $('#bingo td').click(function () {
+                $(this).toggleClass('check');
+            });
+        });
+
+</script>
+</body>
+</html>

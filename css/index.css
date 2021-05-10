@@ -1,0 +1,122 @@
+@charset "utf-8";
+
+.bingo {
+  display: flex;
+  justify-content: space-around;
+  margin-left: 5%;
+  font-size: 150px;
+}
+
+body {
+  font-family: arial, sans-serif;
+}
+
+.wrapper {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.centering {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+/* ルーレット */
+.result {
+  border: solid 1px #b78d4a;
+  border-radius: 50%;
+  font-size: 70px;
+
+  margin-bottom: 20px;
+  width: 130px;
+  height: 130px;
+}
+
+/* 出た数字の一覧 */
+.number {
+  color: #b78d4a;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin: 0 auto;
+  list-style: none;
+  width: 80%;
+  padding: 0;
+}
+
+.number li {
+  background-color: #b78d4a;
+  color: #fff;
+  border-radius: 10px;
+  height: 40px;
+  margin: 4px;
+  width: 40px;
+}
+
+/* ボタン */
+.wrapper-button {
+  padding: 20px 0;
+}
+
+.button {
+  font-size: 30px;
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  border: none;
+  border-radius: 25px;
+  color: #fff;
+  background-image: linear-gradient(45deg, #b78d4a 0%, #d4bb92 100%);
+}
+
+.button:hover {
+  background-image: linear-gradient(45deg, #d4bb92 0%, #fde0a5 100%);
+}
+/* カード全体のスタイル */
+#bingo {
+  width: 340px;
+  margin: 0 auto;
+}
+
+/* B I N G Oと番号のスタイル */
+#bingo th,
+#bingo td {
+  text-align: center;
+  font-weight: normal;
+}
+
+/* B I N G O の文字のスタイル */
+#bingo th {
+  color: #b78d4a;
+}
+
+/* 番号のスタイルを設定 */
+#bingo td {
+  width: 60px;
+  height: 55px;
+  text-align: center;
+  vertical-align: middle;
+
+  border-radius: 1.5rem 1.5rem 0 0;
+  color: #fff;
+  background-color: #b78d4a;
+  border: 2px solid #b78d4a;
+}
+
+/* 番号をチェックした時に変更するクラス、スタイルを設定 */
+#bingo td.check {
+  color: #b78d4a;
+  background-color: #f0f0f0;
+}
+
+/* 番号をマウスオーバーした時にポインタを指矢印に変更 */
+#bingo td:hover {
+  cursor: pointer;
+  cursor: hand;
+}
+    
+/* 作成ボタンのスタイル */
+p#button {
+  text-align: center;
+}
